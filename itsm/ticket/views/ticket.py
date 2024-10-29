@@ -1447,7 +1447,7 @@ class TicketModelViewSet(ModelViewSet):
 
             if many and detail:
                 status = status.filter(
-                    ~Q(status__in=["FINISHED", "TERMINATED"])
+                    ~Q(status__in=["TERMINATED"])
                     | Q(state_id=ticket.first_state_id)
                 )
             show_all_fields = many or status.status != "FINISHED"
