@@ -165,7 +165,7 @@ def _get_reference_variable_value(condition, defined_variables):
         return int(value)
     if field_type == 'numeric':
         return float(value)
-    if field_type in ["string", 'select', 'text', 'radio']:
+    if field_type in ["string", "select", "text", "radio", "inputselect"]:
         return str(value)
     if field_type in ["multiselect", 'checkbox'] and isinstance(value, str):
         return set(value.split(","))
@@ -217,7 +217,7 @@ def _get_real_variable_value(variable_value, field_type):
         return DateTimeType(variable_value)
     if field_type == "time":
         return TimeType(variable_value)
-    if field_type in ["string", 'select', 'text', 'radio']:
+    if field_type in ["string", "select", "text", "radio", "inputselect"]:
         return StringType(variable_value)
 
 

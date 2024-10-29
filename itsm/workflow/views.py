@@ -47,7 +47,7 @@ from business_rules.operators import (
     DateTimeType,
     TimeType,
     BooleanType,
-    SelectMultipleType,
+    SelectMultipleType, SelectType,
 )
 from common.log import logger
 from itsm.component.constants import (
@@ -204,6 +204,7 @@ class WorkflowViewSet(
             "bool": BooleanType.get_display_operators(),
             "string": StringType.get_display_operators(),
             "select": StringType.get_display_operators(),
+            "inputselect": SelectType.get_display_operators(),
             "radio": StringType.get_display_operators(),
             "text": StringType.get_display_operators(),
             "datetime": DateTimeType.get_display_operators(),

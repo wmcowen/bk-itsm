@@ -1,7 +1,9 @@
 # Changelog
 ## [Version: 2.7.1] - 2024-10-15
 【Feature】Integrated pipeline management tool.  
-【Improved】Ensure TEXT compatibility with JSON and Markdown formats.  
+【Improved】Ensure TEXT compatibility with JSON and Markdown formats. 
+【Fix】Resolve the issue where the inputselect component cannot select conditions in the trigger.  
+【Fix】Fix the issue where newly added fields in a node cannot detect from the previous node.  
 
 
 ## [Version: 2.7.0] - 2024-10-10

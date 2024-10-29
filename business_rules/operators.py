@@ -25,6 +25,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import inspect
 import re
+from django.utils.translation import gettext_lazy as _
 from datetime import date, datetime, time
 from decimal import Decimal
 from functools import wraps
@@ -237,14 +238,14 @@ class SelectType(BaseType):
         else:
             return value_from_list == other_value
 
-    @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
+    @type_operator(FIELD_SELECT, assert_type_for_arguments=False, label=_("包含"))
     def contains(self, other_value):
         for val in self.value:
             if self._case_insensitive_equal_to(val, other_value):
                 return True
         return False
 
-    @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
+    @type_operator(FIELD_SELECT, assert_type_for_arguments=False, label=_("不包含"))
     def does_not_contain(self, other_value):
         for val in self.value:
             if self._case_insensitive_equal_to(val, other_value):
