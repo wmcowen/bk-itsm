@@ -1,16 +1,17 @@
 # Changelog
-## [Version: 2.7.1] - 2024-10-15
+## [Version: 2.7.1] - 2024-11-06
 【Feature】Integrated pipeline management tool.  
-【Improved】Ensure TEXT compatibility with JSON and Markdown formats. 
+【Improved】Ensure TEXT compatibility with JSON and Markdown formats.  
 【Fix】Resolve the issue where the inputselect component cannot select conditions in the trigger.  
 【Fix】Fix the issue where newly added fields in a node cannot detect from the previous node.  
+【Fix】Fix the issue with the JSON component anomaly in the submission node.  
 
 
 ## [Version: 2.7.0] - 2024-10-10
 【Feature】Notification recipient blacklist filtering.  
 【Improved】Migrated the authentication information to header when calling esb, support open-paas/esb >= 2.12.20  
 【Improved】Changed “My Tasks” to “My Completed” in the navigation bar.  
-【Improved】Adjust default items when adding an Approval Node in the process.
+【Improved】Adjust default items when adding an Approval Node in the process.  
 【Improved】Adjusted platform management permissions to be instance-free authentication.  
 【Fixed】The navigation bar style has been standardized according to the design specifications.  
 【Fixed】Modified the implementation method for exporting common API files.  

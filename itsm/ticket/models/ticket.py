@@ -29,6 +29,7 @@ import json
 import time
 from datetime import datetime
 from itertools import chain
+from json import JSONDecodeError
 
 import requests
 import jsonfield
@@ -3086,7 +3087,14 @@ class Ticket(Model, BaseTicket):
         for ticket_field in filter_field_query_set:
             ticket_field.value = fields_map[ticket_field.key]["value"]
             if isinstance(ticket_field.value, str) and ticket_field.type not in FIELD_IGNORE_ESCAPE:
-                ticket_field.value = texteditor_escape(ticket_field.value)
+                need_escape = True
+                try:
+                    json.loads(ticket_field.value)
+                    need_escape = False
+                except JSONDecodeError:
+                    pass
+                if need_escape:
+                    ticket_field.value = texteditor_escape(ticket_field.value)
 
             ticket_field.choice = fields_map[ticket_field.key].get("choice", [])
             language_config = (
