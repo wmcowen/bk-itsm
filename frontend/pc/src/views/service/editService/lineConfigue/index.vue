@@ -663,7 +663,14 @@
         this.$emit('closeLine');
       },
       deleteLine() {
-        this.$emit('deleteLine');
+        const _this = this;
+        this.$bkInfo({
+          type: 'warning',
+          title: this.$t('m[\'此操作不可撤销，确定要删除吗？\']'),
+          confirmFn() {
+            _this.$emit('deleteLine');
+          },
+        });
       },
       // 存为模板
       submitTemplate() {

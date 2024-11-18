@@ -1,4 +1,8 @@
 # Changelog
+## [Version: 2.7.2] - 2024-11-18
+【Feature】Add a popup confirmation when deleting lines on the canvas.  
+【Improved】When selecting ‘All Systems’ in the API list, remove the options for creating new and importing APIs.  
+
 ## [Version: 2.7.1] - 2024-11-06
 【Feature】Integrated pipeline management tool.  
 【Improved】Ensure TEXT compatibility with JSON and Markdown formats.  

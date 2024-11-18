@@ -25,47 +25,48 @@
     <div class="bk-api-button mb20">
       <p class="bk-api-title">{{ $t(`m.systemConfig["API列表"]`) }}</p>
       <div class="bk-api-button">
-        <bk-dropdown-menu class="mr10 access-btn" @show="dropdownShow" @hide="dropdownHide" ref="apiDropdown" :disabled="disableImport">
-          <div
-            slot="dropdown-trigger"
-            class="dropdown-trigger-btn"
-            style="padding-left: 12px;">
-            <span style="font-size: 14px;">{{ $t(`m.systemConfig['API接入']`)}}</span>
-            <i :class="['bk-icon icon-angle-down',{ 'icon-flip': isDropdownShow }]"></i>
-          </div>
-          <ul class="bk-dropdown-list" slot="dropdown-content">
-            <li>
-              <a href="javascript:;"
-                v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
-                :class="{ 'text-permission-disable': !hasPermission(targetPerms, curPerms) }"
-                :title="$t(`m.systemConfig['接入API']`)"
-                data-test-id="api_a_apiTableAccessApi"
-                @click="openShade('JOIN')">
-                {{ $t(`m.systemConfig['接入API']`) }}
-              </a>
-            </li>
-            <li>
-              <a href="javascript:;"
-                data-test-id="api_a_apiTableCreateApi"
-                v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
-                :class="{ 'text-permission-disable': !hasPermission(targetPerms, curPerms) }"
-                :title="$t(`m.systemConfig['新增API']`)"
-                @click="openShade('ADD')">
-                {{$t(`m.systemConfig['新增API']`)}}
-              </a>
-            </li>
-          </ul>
-        </bk-dropdown-menu>
-        <bk-button
-          data-test-id="api_button_apiTableuploadApi"
-          :theme="'default'"
-          :disabled="disableImport"
-          v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
-          :class="['mr10 bk-btn-file', { 'btn-permission-disable': !hasPermission(targetPerms, curPerms) }]"
-          :title="$t(`m.systemConfig['点击上传']`)">
-          <input :disabled="disableImport" :type="!hasPermission(targetPerms, curPerms) ? 'button' : 'file'" :value="fileVal" class="bk-input-file" @change="handleFile" @click="hasImportPermission">
-          {{$t(`m.systemConfig['导入']`)}}
-        </bk-button>
+        <template v-if="!disableImport">
+          <bk-dropdown-menu class="mr10 access-btn" @show="dropdownShow" @hide="dropdownHide" ref="apiDropdown">
+            <div
+              slot="dropdown-trigger"
+              class="dropdown-trigger-btn"
+              style="padding-left: 12px;">
+              <span style="font-size: 14px;">{{ $t(`m.systemConfig['API接入']`)}}</span>
+              <i :class="['bk-icon icon-angle-down',{ 'icon-flip': isDropdownShow }]"></i>
+            </div>
+            <ul class="bk-dropdown-list" slot="dropdown-content">
+              <li>
+                <a href="javascript:;"
+                  v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
+                  :class="{ 'text-permission-disable': !hasPermission(targetPerms, curPerms) }"
+                  :title="$t(`m.systemConfig['接入API']`)"
+                  data-test-id="api_a_apiTableAccessApi"
+                  @click="openShade('JOIN')">
+                  {{ $t(`m.systemConfig['接入API']`) }}
+                </a>
+              </li>
+              <li>
+                <a href="javascript:;"
+                  data-test-id="api_a_apiTableCreateApi"
+                  v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
+                  :class="{ 'text-permission-disable': !hasPermission(targetPerms, curPerms) }"
+                  :title="$t(`m.systemConfig['新增API']`)"
+                  @click="openShade('ADD')">
+                  {{$t(`m.systemConfig['新增API']`)}}
+                </a>
+              </li>
+            </ul>
+          </bk-dropdown-menu>
+          <bk-button
+            data-test-id="api_button_apiTableuploadApi"
+            :theme="'default'"
+            v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
+            :class="['mr10 bk-btn-file', { 'btn-permission-disable': !hasPermission(targetPerms, curPerms) }]"
+            :title="$t(`m.systemConfig['点击上传']`)">
+            <input :type="!hasPermission(targetPerms, curPerms) ? 'button' : 'file'" :value="fileVal" class="bk-input-file" @change="handleFile" @click="hasImportPermission">
+            {{$t(`m.systemConfig['导入']`)}}
+          </bk-button>
+        </template>
         <bk-button :theme="'default'"
           v-cursor="{ active: !hasPermission(targetPerms, curPerms) }"
           data-test-id="api_button_apiTableBatchDeleteApi"
