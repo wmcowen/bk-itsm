@@ -546,7 +546,7 @@ paths:
         backend:
           matchSubpath: false
           method: get
-          path: /{env.api_sub_path}/openapi/worklfow/get_workflow_detail/
+          path: /{env.api_sub_path}/openapi/workflow/get_workflow_detail/
           timeout: 0
           transformHeaders: {}
           type: HTTP
