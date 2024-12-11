@@ -28,6 +28,7 @@ import logging
 from django.conf import settings
 from django.core.cache import cache
 from itsm.component.constants import PROCESS_COUNT
+from itsm.meta.services.notice_filter import notice_filter_service
 from itsm.ticket.models import Ticket, Status
 from pipeline.component_framework.component import Component
 
@@ -61,7 +62,18 @@ class ItsmApprovalService(ItsmSignService):
         )
         is_multi = ticket.flow.get_state(state_id)["is_multi"]
         user_count = str(self.get_user_count(ticket_id, state_id)) if is_multi else "1"
-        ticket.create_moa_ticket(state_id)
+
+        service_approval_blacklist = (
+            notice_filter_service.get_service_approval_blacklist()
+        )
+        if str(ticket.service_id) not in service_approval_blacklist:
+            # 如果service_id不在service_approval_blacklist中，则创建moa单据
+            ticket.create_moa_ticket(state_id)
+        else:
+            # 否则，记录日志
+            logger.info(
+                "Bypass create_moa_ticket due to service id is in service_approval_blacklist"
+            )
 
         # 如果是普通的审批节点，则自动生成条件
         if not is_multi:

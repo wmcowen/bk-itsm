@@ -6,11 +6,11 @@ from django.conf import settings
 from django.http import JsonResponse
 
 from common.log import logger
-from common.utils import notice_receiver_filter
 from config.default import CLOSE_NOTIFY
 from itsm.component.constants import APPROVE_RESULT, API, RUNNING, SHOW_BY_CONDITION
 from itsm.component.exceptions import ComponentCallError
 from itsm.component.utils.conversion import show_conditions_validate, format_exp_value
+from itsm.meta.services.notice_filter import notice_filter_service
 from itsm.ticket.models import Ticket, Status, TicketField, SignTask
 
 # 当前运行环境
@@ -113,12 +113,22 @@ def send_fast_approval_message(title, content, receivers, ticket, state_id):
 
     # 更新详情url
     ticket.generate_ticket_url(state_id, receivers)
-    
+
+    # 如果ticket的service_id在service_approval_blacklist中，则不发送bkchat快速审批通知
+    service_approval_blacklist = notice_filter_service.get_service_approval_blacklist()
+    if str(ticket.service_id) in service_approval_blacklist:
+        logger.info(
+            f"[fast_approval]Bypass due to service id is in service_approval_blacklist, ticket_id=>{ticket_id}"
+        )
+        return
+
     # 接收人过滤
-    receivers = notice_receiver_filter(receivers)
+    receivers = notice_filter_service.notice_receiver_filter(receivers)
     if not receivers:
-        logger.info(f"[fast approval] receivers is empty after filter, ticket_id=>{ticket_id}")
-        return 
+        logger.info(
+            f"[fast approval] receivers is empty after filter, ticket_id=>{ticket_id}"
+        )
+        return
 
     # 构造data信息
     data = {
