@@ -73,9 +73,9 @@
                 </bk-input>
               </template>
               <template v-if="props.row.type === 'boolean'">
-                <bk-radio-group v-model="props.row.value">
-                  <bk-radio :value="trueSatatus">true</bk-radio>
-                  <bk-radio :value="falseSatatus">false</bk-radio>
+                <bk-radio-group v-model="props.row.value" class="bool-radios">
+                  <bk-radio :value="true">true</bk-radio>
+                  <bk-radio :value="false">false</bk-radio>
                 </bk-radio-group>
               </template>
             </div>
@@ -410,6 +410,11 @@
                     }
                 }
             }
+        }
+    }
+    .bool-radios {
+        .bk-form-radio {
+            margin-right: 8px;
         }
     }
 </style>

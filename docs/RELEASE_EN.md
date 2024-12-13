@@ -1,4 +1,7 @@
 # Changelog
+## [Version: 2.7.3] - 2024-11-25
+【Fix】API request node POST parameter editing rendering issue.  
+
 ## [Version: 2.7.2] - 2024-11-18
 【Feature】Add a popup confirmation when deleting lines on the canvas.  
 【Improved】When selecting ‘All Systems’ in the API list, remove the options for creating new and importing APIs.  
