@@ -2390,7 +2390,7 @@ export const m = {
   请先创建服务后再进行操作: 'Create the service before performing the operation',
   该项目不允许删除: 'This project is not allowed to be deleted',
   分析: 'Analysis',
-  提单成功: 'Create Ticket Sucess',
+  提单成功: 'Create Ticket Success',
   当前流程已跳转至下一节点: 'The current flow has moved to the next node',
   后将自动跳转至流程详情查看: 'automatically jump to flow details',
   返回单据列表: 'Return to Ticket List',

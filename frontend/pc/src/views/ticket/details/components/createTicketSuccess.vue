@@ -114,12 +114,12 @@
                 margin-top: 40px;
                 .back-list-btn {
                     color: #63656e;
-                    width: 128px;
+                    min-width: 128px;
                     height: 40px;
                     margin-right: 8px;
                 }
                 .view-detail-btn {
-                    width: 128px;
+                    min-width: 128px;
                     height: 40px;
                 }
             }
