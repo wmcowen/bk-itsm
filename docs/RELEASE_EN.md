@@ -3,6 +3,7 @@
 【Feature】Add meta context management, applied to fast approval, MOA, and notification receivers filter.  
 【Fix】API request node POST parameter editing rendering issue.  
 【Fix】"Submit" button was not internationalized, "Return to Ticket List" button text overflow.  
+【Fix】Resolve the issue of WeChat Work Bot Trigger webhook notification failure.  
 
 
 ## [Version: 2.7.2] - 2024-11-18

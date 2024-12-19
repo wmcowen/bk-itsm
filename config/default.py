@@ -973,4 +973,13 @@ PIPELINE_ENGINE_ADMIN_API_PERMISSION = (
     "itsm.helper.permissions.check_permission_success"
 )
 
-QW_WEB_HOOK_URL = os.getenv("BKAPP_QW_WEB_HOOK_URL", "")
+if RUN_VER == "ieod":
+    QW_WEB_HOOK_URL = os.getenv(
+        "BKAPP_QW_WEB_HOOK_URL",
+        "http://in.qyapi.weixin.qq.com/cgi-bin/webhook/send?key={}",
+    )
+else:
+    QW_WEB_HOOK_URL = os.getenv(
+        "BKAPP_QW_WEB_HOOK_URL",
+        "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key={}",
+    )
