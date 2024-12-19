@@ -30,9 +30,10 @@ import requests
 
 from common.log import logger
 from common.sub_string import sub_string
+from django.conf import settings
 
 
-WEB_HOOK_URL = "http://in.qyapi.weixin.qq.com/cgi-bin/webhook/send?key={}"
+QW_WEB_HOOK_URL = settings.QW_WEB_HOOK_URL
 
 
 class Announcement(Thread):
@@ -63,7 +64,7 @@ class Announcement(Thread):
                 if self.chat_ids is not None:
                     data["chatid"] = self.chat_ids
                 resp = session.post(
-                    url=WEB_HOOK_URL.format(self.web_hook_id),
+                    url=QW_WEB_HOOK_URL.format(self.web_hook_id),
                     data=json.dumps(data),
                     verify=False,
                 )

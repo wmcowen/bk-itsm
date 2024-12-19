@@ -25,6 +25,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import base64
 import datetime
 import importlib
+import os
 from urllib.parse import urljoin, urlparse
 
 from blueapps.conf.default_settings import *  # noqa
@@ -971,3 +972,5 @@ TICKET_INVITE_SMS_COUNT = int(os.getenv("BKAPP_TICKET_INVITE_SMS_COUNT", 10))
 PIPELINE_ENGINE_ADMIN_API_PERMISSION = (
     "itsm.helper.permissions.check_permission_success"
 )
+
+QW_WEB_HOOK_URL = os.getenv("BKAPP_QW_WEB_HOOK_URL", "")
