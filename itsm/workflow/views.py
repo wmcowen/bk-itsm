@@ -47,7 +47,8 @@ from business_rules.operators import (
     DateTimeType,
     TimeType,
     BooleanType,
-    SelectMultipleType, SelectType,
+    SelectMultipleType,
+    SelectType,
 )
 from common.log import logger
 from itsm.component.constants import (
@@ -191,10 +192,6 @@ class WorkflowViewSet(
     }
     permission_free_actions = ["get_global_choices", "list"]
     permission_classes = (WorkflowIamAuth,)
-
-    def get_queryset(self):
-        self.queryset = self.queryset.exclude(flow_type="internal")
-        return self.queryset
 
     @action(detail=False, methods=["get"])
     def get_global_choices(self, request):
@@ -540,7 +537,7 @@ class TransitionViewSet(BaseWorkflowElementViewSet):
         if self.action == "batch_update":
             return self.request.data.get("workflow_id")
         return None
-    
+
     def perform_destroy(self, instance):
         # 从开始节点出来的连线只能由一条, 且不能被删除
         if instance.from_state.type == START_STATE:
@@ -750,7 +747,7 @@ class TemplateFieldViewSet(component_viewsets.ModelViewSet):
         "destroy": "field_delete",
         "update": "field_edit",
     }
-    
+
     filter_fields = {
         "id": ["in"],
         "key": ["exact", "in", "contains", "startswith"],
@@ -1102,7 +1099,7 @@ class TaskSchemaViewSet(DynamicListModelMixin, component_viewsets.ModelViewSet):
     permission_action_platform = "public_task_template_manage"
     permission_create_action = ["create", "clone"]
     permission_resource_is_project = True
-    
+
     pagination_class = None
 
     def update(self, request, *args, **kwargs):
