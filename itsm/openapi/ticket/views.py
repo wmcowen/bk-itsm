@@ -604,7 +604,26 @@ class TicketViewSet(ApiGatewayMixin, component_viewsets.ModelViewSet):
                     }
                 )
             else:
-                if not remarked:
+                if remarked:
+                    break
+                if (
+                    serializer.validated_data["submit_action"] == "true"
+                    and field.validate_type == "OPTION"
+                ):
+                    fields.append(
+                        {
+                            "id": field.id,
+                            "key": field.key,
+                            "type": field.type,
+                            "choice": field.choice,
+                            "value": serializer.validated_data["submit_opinion"],
+                        }
+                    )
+                    remarked = True
+                if (
+                    serializer.validated_data["submit_action"] == "false"
+                    and field.validate_type == "REQUIRE"
+                ):
                     fields.append(
                         {
                             "id": field.id,

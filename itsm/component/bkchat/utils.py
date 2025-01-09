@@ -271,7 +271,20 @@ def proceed_fast_approval(request):
                 }
             )
         else:
-            if not remarked:
+            if remarked:
+                break
+            if approve_action == "true" and field.validate_type == "OPTION":
+                fields.append(
+                    {
+                        "id": field.id,
+                        "key": field.key,
+                        "type": field.type,
+                        "choice": field.choice,
+                        "value": "快速审批，审批人：{}".format(receiver),
+                    }
+                )
+                remarked = True
+            if approve_action == "false" and field.validate_type == "REQUIRE":
                 fields.append(
                     {
                         "id": field.id,
