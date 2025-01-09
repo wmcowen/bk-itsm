@@ -1,4 +1,9 @@
 # Changelog
+## [Version: 2.7.4.rc0] - 2025-01-09
+【Fix】The remark field is not displayed when the ticket is rejected through MOA.  
+【Fix】Abnormality of internal workflow page 
+
+
 ## [Version: 2.7.3] - 2024-11-25
 【Feature】Add meta context management, applied to fast approval, MOA, and notification receivers filter.  
 【Fix】API request node POST parameter editing rendering issue.  
