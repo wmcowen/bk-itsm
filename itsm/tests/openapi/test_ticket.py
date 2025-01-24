@@ -41,6 +41,7 @@ from itsm.ticket.models import Ticket, AttentionUsers, TicketComment
 from itsm.service.models import Service, CatalogService
 from itsm.workflow.models import WorkflowVersion
 from itsm.role.models import UserRole
+from pipeline.engine.models import FunctionSwitch
 
 
 class TicketOpenTest(TestCase):
@@ -52,6 +53,7 @@ class TicketOpenTest(TestCase):
         CatalogService.objects.create(
             service_id=1, is_deleted=False, catalog_id=2, creator="admin"
         )
+        FunctionSwitch.objects.init_db()
 
     def tearDown(self):
         Ticket.objects.all().delete()

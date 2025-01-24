@@ -27,15 +27,15 @@ __author__ = "蓝鲸智云"
 __copyright__ = "Copyright © 2012-2020 Tencent BlueKing. All Rights Reserved."
 
 import json
+
 import mock
 from blueapps.core.celery.celery import app
-
-from django.test import TestCase, override_settings
 from django.core.cache import cache
+from django.test import TestCase, override_settings
 
+from itsm.component.constants import APPROVAL_STATE
 from itsm.service.models import CatalogService, Service
 from itsm.ticket.models import Ticket, Status, AttentionUsers
-from itsm.component.constants import APPROVAL_STATE
 
 
 class TicketTest(TestCase):
@@ -142,9 +142,18 @@ class TicketTest(TestCase):
         self.assertEqual(["admin"], list_rsp.data["data"]["items"][0]["followers"])
 
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideTestMiddleware",))
+    @mock.patch("itsm.auth_iam.utils.IamRequest.batch_resource_multi_actions_allowed")
     @mock.patch("itsm.role.models.get_user_departments")
-    def test_list_follower(self, patch_get_user_departments):
+    def test_list_follower(
+        self, patch_get_user_departments, patch_batch_resource_multi_actions_allowed
+    ):
         patch_get_user_departments.return_value = {}
+        patch_batch_resource_multi_actions_allowed.return_value = {
+            "1": {"ticket_view": True}
+        }
+
+        # 当前测试使用test用户为admin用户提单，需要允许代提单
+        Service.objects.filter(id=1).update(can_ticket_agency=True)
         data = {
             "catalog_id": 3,
             "service_id": 1,
@@ -282,6 +291,10 @@ class TicketTest(TestCase):
     def test_add_follower(self, patch_misc_get_bk_users, path_get_bk_users):
         patch_misc_get_bk_users.return_value = {}
         path_get_bk_users.return_value = {}
+
+        # 当前测试使用admin用户为test用户提单，需要允许代提单
+        Service.objects.filter(id=1).update(can_ticket_agency=True)
+
         data = {
             "catalog_id": 3,
             "service_id": 1,
@@ -397,11 +410,27 @@ class TicketTest(TestCase):
         self.assertEqual(ticket_id, list_rsp.data["data"]["id"])
 
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideTestMiddleware",))
+    @mock.patch("itsm.auth_iam.utils.IamRequest.resource_multi_actions_allowed")
     @mock.patch("itsm.ticket.serializers.ticket.get_bk_users")
     @mock.patch("itsm.component.utils.misc.get_bk_users")
-    def test_operate(self, patch_misc_get_bk_users, path_get_bk_users):
+    def test_operate(
+        self,
+        patch_misc_get_bk_users,
+        path_get_bk_users,
+        patch_resource_multi_actions_allowed,
+    ):
         patch_misc_get_bk_users.return_value = {}
         path_get_bk_users.return_value = {}
+        patch_resource_multi_actions_allowed.return_value = {"ticket_management": True}
+
+        # 打印调试信息
+        print(
+            "Mocked resource_multi_actions_allowed:",
+            patch_resource_multi_actions_allowed.return_value,
+        )
+
+        # 当前测试使用test用户为admin用户提单，需要允许代提单
+        Service.objects.filter(id=1).update(can_ticket_agency=True)
         data = {
             "catalog_id": 3,
             "service_id": 1,

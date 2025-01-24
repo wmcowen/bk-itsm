@@ -29,6 +29,7 @@ from django.test import TestCase, override_settings
 
 from itsm.service.models import CatalogService
 from itsm.ticket.models import Ticket
+from pipeline.engine.models import FunctionSwitch
 
 
 class TicketViewTest(TestCase):
@@ -37,6 +38,7 @@ class TicketViewTest(TestCase):
         CatalogService.objects.create(
             service_id=1, is_deleted=False, catalog_id=2, creator="admin"
         )
+        FunctionSwitch.objects.init_db()
         data = {
             "catalog_id": 3,
             "service_id": 1,
