@@ -26,6 +26,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 __author__ = "蓝鲸智云"
 __copyright__ = "Copyright © 2012-2020 Tencent BlueKing. All Rights Reserved."
 
+import mock
 from django.test import TestCase, override_settings
 
 from itsm.ticket_status.models import StatusTransit, TicketStatusConfig, TicketStatus
@@ -33,7 +34,9 @@ from itsm.ticket_status.models import StatusTransit, TicketStatusConfig, TicketS
 
 class TicketStatusTest(TestCase):
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideMiddleware",))
-    def test_variable_list(self):
+    @mock.patch("itsm.ticket_status.permissions.TicketStatusPermit.has_permission")
+    def test_variable_list(self, patch_has_permission):
+        patch_has_permission.return_value = True
         url = "/api/ticket_status/status/get_configs/"
         rsp = self.client.get(path=url, data=None, content_type="application/json")
         self.assertEqual(len(rsp.data), 4)
@@ -42,7 +45,9 @@ class TicketStatusTest(TestCase):
         self.assertIsInstance(rsp.data, dict)
 
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideMiddleware",))
-    def test_save_status_of_service_type(self):
+    @mock.patch("itsm.ticket_status.permissions.TicketStatusPermit.has_permission")
+    def test_save_status_of_service_type(self, patch_has_permission):
+        patch_has_permission.return_value = True
         data = {
             "service_type": "change",
             "ticket_status_ids": [1, 2, 3, 4, 5, 6, 7, 8],
@@ -95,7 +100,9 @@ class TicketStatusTest(TestCase):
         self.assertEqual(rsp.data["result"], True)
 
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideMiddleware",))
-    def test_patch(self):
+    @mock.patch("itsm.ticket_status.permissions.TicketStatusPermit.has_permission")
+    def test_patch(self, patch_has_permission):
+        patch_has_permission.return_value = True
         url = "/api/ticket_status/status/3/"
         data = {"name": "已解决", "desc": "", "color_hex": "#3A84FF"}
         rsp = self.client.patch(path=url, data=data, content_type="application/json")
@@ -140,7 +147,9 @@ class TransitTest(TestCase):
         self.assertEqual(len(rsp.data["data"]), 39)
 
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideMiddleware",))
-    def test_save_transit_of_service_type(self):
+    @mock.patch("itsm.ticket_status.permissions.TicketStatusPermit.has_permission")
+    def test_save_transit_of_service_type(self, patch_has_permission):
+        patch_has_permission.return_value = True
         url = "/api/ticket_status/transit/save_transit_of_service_type/"
         data = {
             "service_type": "change",
@@ -193,7 +202,9 @@ class TransitTest(TestCase):
         self.assertEqual(rsp.data["result"], False)
 
     @override_settings(MIDDLEWARE=("itsm.tests.middlewares.OverrideMiddleware",))
-    def test_set_transit_rule(self):
+    @mock.patch("itsm.ticket_status.permissions.TicketStatusPermit.has_permission")
+    def test_set_transit_rule(self, patch_has_permission):
+        patch_has_permission.return_value = True
         url = "/api/ticket_status/status/1/set_transit_rule/"
         data = {"to_status": 6, "threshold": "1", "threshold_unit": "m"}
         rsp = self.client.post(path=url, data=data, content_type="application/json")
